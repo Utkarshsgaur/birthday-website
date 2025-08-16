@@ -983,18 +983,25 @@
 
         // Music control
         function toggleMusic() {
-            const music = document.getElementById('bgMusic');
-            if (musicPlaying) {
-                music.pause();
-                musicPlaying = false;
-            } else {
-                music.play().catch(e => {
-                    alert('Please add a music file URL to the HTML audio source!');
-                });
-                musicPlaying = true;
-            }
-            updateMusicButton();
+    const music = document.getElementById('bgMusic');
+    
+    if (musicPlaying) {
+        music.pause();
+        musicPlaying = false;
+    } else {
+        // Set the source if it's not set
+        if (!music.src || music.src === '') {
+            music.src = 'https://raw.githubusercontent.com/Utkarshsgaur/birthday-website/main/music/romantic-song.mp3';
         }
+        
+        music.play().then(() => {
+            musicPlaying = true;
+        }).catch(e => {
+            alert('Please interact with the page first (click anywhere), then try the music button again!');
+        });
+    }
+    updateMusicButton();
+}
 
         function updateMusicButton() {
             const btn = document.getElementById('musicBtn');
